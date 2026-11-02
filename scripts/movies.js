@@ -7,8 +7,10 @@ function renderMovies(list) {
     catalog.innerHTML = '';
 
     list.forEach(movie => {
-        const card = document.createElement('article');
+        const card = document.createElement('a');
         card.className = 'catalog-card';
+
+        card.href = `movie.html?id=${movie.id}`
 
         card.innerHTML = `
             <img

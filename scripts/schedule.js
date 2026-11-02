@@ -76,8 +76,7 @@ function renderSchedule() {
 
         group.innerHTML = `
             <div class="session-heading">
-                <h3>${movie.title}</h3>
-
+                <a href="movie.html?id=${movie.id}">${movie.title}</a>
                 <span>
                     ${movie.genre.join(', ')} /
                     ${movie.duration} мин /

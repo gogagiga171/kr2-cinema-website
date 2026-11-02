@@ -21,8 +21,10 @@ function renderMovies() {
     moviesContainer.innerHTML = '';
 
     activeMovies.forEach(movie => {
-        const card = document.createElement('article');
+        const card = document.createElement('a');
         card.className = 'movie';
+
+        card.href = `movie.html?id=${movie.id}`
 
         card.innerHTML = `
             <img
@@ -93,7 +95,7 @@ function renderSchedule() {
 
         row.innerHTML = `
             <div class="schedule-info">
-                <h3>${session.movie.title}</h3>
+                <a href="movie.html?id=${session.movie.id}">${session.movie.title}</a>
 
                 <p>
                     ${session.movie.genre.join(', ')} ·

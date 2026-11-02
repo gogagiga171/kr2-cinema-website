@@ -1,0 +1,136 @@
+.schedule-header {
+            padding: 55px 0 35px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .schedule-header h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .schedule-header p {
+            color: var(--secondary);
+        }
+
+        .date-selector {
+            display: flex;
+            gap: 10px;
+            margin: 30px 0;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .date-button {
+            min-width: 90px;
+            padding: 15px;
+            background: transparent;
+            color: var(--secondary);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .date-button.active {
+            color: #111;
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .day-title {
+            font-size: 22px;
+            margin: 35px 0 20px;
+        }
+
+        .session-group {
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .session-heading {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .session-heading h3 {
+            font-size: 18px;
+        }
+
+        .session-heading span {
+            color: var(--secondary);
+            font-size: 13px;
+        }
+
+        .session-details {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            gap: 15px;
+        }
+
+        .session-details:last-child {
+            border-bottom: none;
+        }
+
+        .session-time {
+            font-size: 21px;
+            font-weight: bold;
+            min-width: 75px;
+        }
+
+        .session-info {
+            flex: 1;
+            color: var(--secondary);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .session-price {
+            color: var(--accent);
+            font-size: 14px;
+            min-width: 90px;
+            text-align: right;
+        }
+
+        .session-buy {
+            border: 1px solid var(--border);
+            padding: 11px 15px;
+            color: white;
+            background: transparent;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .session-buy:hover {
+            background: var(--accent);
+            color: #111;
+            border-color: var(--accent);
+        }
+
+        .schedule-note {
+            color: var(--secondary);
+            font-size: 13px;
+            padding: 25px 0 55px;
+        }
+
+        @media(max-width: 700px) {
+            .schedule-header h1 {
+                font-size: 32px;
+            }
+
+            .session-details {
+                flex-wrap: wrap;
+            }
+
+            .session-info {
+                min-width: 120px;
+            }
+
+            .session-price {
+                text-align: left;
+            }
+        }

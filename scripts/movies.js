@@ -1,30 +1,72 @@
 const search = document.getElementById('search');
 const genre = document.getElementById('genre');
-const cards = document.querySelectorAll('.catalog-card');
+const catalog = document.getElementById('catalog');
 const empty = document.getElementById('empty');
 
-function filterMovies() {
-    const query = search.value.toLowerCase();
-    const selectedGenre = genre.value;
-    let visible = 0;
+function renderMovies(list) {
+    catalog.innerHTML = '';
 
-    cards.forEach(card => {
-        const name = card.querySelector('h3').textContent.toLowerCase();
-        const cardGenre = card.dataset.genre;
+    list.forEach(movie => {
+        const card = document.createElement('article');
+        card.className = 'catalog-card';
 
-        const matchesName = name.includes(query);
-        const matchesGenre = selectedGenre === 'all' ||
-                             cardGenre === selectedGenre;
+        card.innerHTML = `
+            <img
+                class="catalog-poster"
+                src="${movie.poster}"
+                alt="${movie.title}"
+            >
 
-        card.style.display = matchesName && matchesGenre
-            ? 'block'
-            : 'none';
+            <div class="catalog-content">
+                <h3>${movie.title}</h3>
 
-        if (matchesName && matchesGenre) visible++;
+                <div class="catalog-meta">
+                    Жанр: ${movie.genre.join(', ')}<br>
+                    Длительность: ${movie.duration} минут<br>
+                    Возраст: ${movie.ageRating}<br>
+                    Рейтинг: ${movie.rating} / 10<br>
+                    Отзывы: ${movie.reviews}
+                </div>
+
+                <div class="catalog-bottom">
+                    <span class="catalog-price">
+                        от ${movie.price} ₽
+                    </span>
+
+                    <a href="schedule.html?id=${movie.id}"
+                       class="catalog-button">
+                        СЕАНСЫ →
+                    </a>
+                </div>
+            </div>
+        `;
+
+        catalog.appendChild(card);
     });
 
-    empty.style.display = visible === 0 ? 'block' : 'none';
+    empty.style.display = list.length === 0 ? 'block' : 'none';
+}
+
+function filterMovies() {
+    const query = search.value.toLowerCase().trim();
+    const selectedGenre = genre.value;
+
+    const filtered = getActiveMovies().filter(movie => {
+        const matchesName =
+            movie.title.toLowerCase().includes(query);
+
+        const matchesGenre =
+            selectedGenre === 'all' ||
+            movie.genre.includes(selectedGenre);
+
+        return matchesName && matchesGenre;
+    });
+
+    renderMovies(filtered);
 }
 
 search.addEventListener('input', filterMovies);
 genre.addEventListener('change', filterMovies);
+
+// Первоначальная загрузка
+renderMovies(getActiveMovies());

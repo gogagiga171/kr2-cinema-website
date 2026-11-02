@@ -1,0 +1,207 @@
+.hero {
+            padding: 90px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-label {
+            color: var(--accent);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 65px);
+            max-width: 700px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            color: var(--secondary);
+            max-width: 450px;
+            line-height: 1.6;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 25px;
+            background: var(--accent);
+            color: #111;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        section {
+            padding: 65px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+
+        .section-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        /* MOVIES */
+
+        .movies {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .movie {
+            border: 1px solid var(--border);
+            transition: border-color .2s;
+        }
+
+        .movie:hover {
+            border-color: var(--accent);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            display: block;
+            background: #303030;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .movie-info {
+            padding: 20px;
+        }
+
+        .movie h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .movie p {
+            color: var(--secondary);
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .movie-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
+        }
+
+        .movie-bottom span {
+            color: var(--accent);
+            font-size: 14px;
+        }
+
+        .movie-bottom a {
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        /* SCHEDULE */
+
+        .schedule {
+            border: 1px solid var(--border);
+        }
+
+        .schedule-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            gap: 15px;
+        }
+
+        .schedule-row:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-info {
+            flex: 1;
+        }
+
+        .schedule-info h3 {
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .schedule-info p {
+            color: var(--secondary);
+            font-size: 13px;
+        }
+
+        .schedule-time {
+            color: var(--accent);
+            font-size: 16px;
+        }
+
+        .schedule-price {
+            color: var(--secondary);
+            font-size: 13px;
+        }
+
+        .empty-message {
+            padding: 25px;
+            color: var(--secondary);
+            border: 1px solid var(--border);
+        }
+
+        /* INFO */
+
+        .info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .info-item {
+            padding: 25px;
+            border: 1px solid var(--border);
+        }
+
+        .info-item h3 {
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .info-item p {
+            color: var(--secondary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        @media(max-width: 700px) {
+            .movies {
+                grid-template-columns: 1fr;
+            }
+
+            .info {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 60px 0;
+            }
+
+            .schedule-row {
+                flex-wrap: wrap;
+            }
+        }

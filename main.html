@@ -1,11 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CINEMA — Кинотеатр</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CINEMA — Кинотеатр</title>
     <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 
 <body>
@@ -26,9 +26,11 @@
 
 <main>
 
+    <!-- HERO -->
+
     <div class="container">
         <div class="hero">
-            <div class="hero-label">КИНОТЕАТР / С 2026 ГОДА</div>
+            <div class="hero-label">КИНОТЕАТР / С 2010 ГОДА</div>
 
             <h1>БОЛЬШОЕ КИНО. БОЛЬШИЕ ЭМОЦИИ.</h1>
 
@@ -38,7 +40,7 @@
                 Ждём вас в нашем кинотеатре.
             </p>
 
-            <a href="#schedule" class="button">
+            <a href="schedule.html" class="button">
                 Смотреть расписание →
             </a>
         </div>
@@ -48,47 +50,16 @@
 
     <section id="movies">
         <div class="container">
-            <h2 class="section-title">СЕЙЧАС В КИНО</h2>
 
-            <div class="movies">
-
-                <div class="movie">
-                    <div class="poster">ПОСТЕР ФИЛЬМА</div>
-                    <div class="movie-info">
-                        <h3>Интерстеллар</h3>
-                        <p>Фантастика / 169 мин / 16+</p>
-                        <div class="movie-bottom">
-                            <span>от 350 ₽</span>
-                            <span>2D</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="movie">
-                    <div class="poster">ПОСТЕР ФИЛЬМА</div>
-                    <div class="movie-info">
-                        <h3>Начало</h3>
-                        <p>Триллер / 148 мин / 16+</p>
-                        <div class="movie-bottom">
-                            <span>от 300 ₽</span>
-                            <span>2D</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="movie">
-                    <div class="poster">ПОСТЕР ФИЛЬМА</div>
-                    <div class="movie-info">
-                        <h3>Дюна</h3>
-                        <p>Фантастика / 155 мин / 12+</p>
-                        <div class="movie-bottom">
-                            <span>от 400 ₽</span>
-                            <span>3D</span>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="section-top">
+                <h2 class="section-title">СЕЙЧАС В КИНО</h2>
+                <a href="movies.html" class="section-link">
+                    ВСЕ ФИЛЬМЫ →
+                </a>
             </div>
+
+            <div class="movies" id="movies-container"></div>
+
         </div>
     </section>
 
@@ -96,43 +67,16 @@
 
     <section id="schedule">
         <div class="container">
-            <h2 class="section-title">РАСПИСАНИЕ</h2>
 
-            <div class="schedule">
-
-                <div class="schedule-row">
-                    <div class="schedule-info">
-                        <h3>Интерстеллар</h3>
-                        <p>Зал №1 · 2D · 16+</p>
-                    </div>
-                    <div class="time">12:30</div>
-                </div>
-
-                <div class="schedule-row">
-                    <div class="schedule-info">
-                        <h3>Начало</h3>
-                        <p>Зал №2 · 2D · 16+</p>
-                    </div>
-                    <div class="time">15:00</div>
-                </div>
-
-                <div class="schedule-row">
-                    <div class="schedule-info">
-                        <h3>Дюна</h3>
-                        <p>Зал №1 · 3D · 12+</p>
-                    </div>
-                    <div class="time">18:30</div>
-                </div>
-
-                <div class="schedule-row">
-                    <div class="schedule-info">
-                        <h3>Интерстеллар</h3>
-                        <p>Зал №3 · 2D · 16+</p>
-                    </div>
-                    <div class="time">21:00</div>
-                </div>
-
+            <div class="section-top">
+                <h2 class="section-title">РАСПИСАНИЕ НА СЕГОДНЯ</h2>
+                <a href="schedule.html" class="section-link">
+                    ВСЕ СЕАНСЫ →
+                </a>
             </div>
+
+            <div class="schedule" id="schedule-container"></div>
+
         </div>
     </section>
 
@@ -140,6 +84,7 @@
 
     <section id="contacts">
         <div class="container">
+
             <h2 class="section-title">О КИНОТЕАТРЕ</h2>
 
             <div class="info">
@@ -156,7 +101,10 @@
 
                 <div class="info-item">
                     <h3>КОНТАКТЫ</h3>
-                    <p>+7 (900) 000-00-00<br>cinema@example.com</p>
+                    <p>
+                        +7 (900) 000-00-00<br>
+                        cinema@example.com
+                    </p>
                 </div>
 
             </div>
@@ -173,6 +121,9 @@
         </div>
     </div>
 </footer>
+
+<script src="scripts/lists.js"></script>
+<script src="scripts/main.js"></script>
 
 </body>
 </html>

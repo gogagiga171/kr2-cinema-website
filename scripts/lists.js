@@ -146,7 +146,7 @@ const sessions = [
 
 
 // СПИСОК ОТЗЫВОВ
-const reviews = [
+const reviews = JSON.parse(localStorage.getItem('cinema-reviews')) || [
     {
         id: 1,
         movieId: 1,
@@ -249,7 +249,10 @@ function getReviewsByMovie(movieId) {
 
 function addReview(movieId, author, rating, text) {
     const newReview = {
-        id: reviews.length ? Math.max(...reviews.map(review => review.id)) + 1 : 1,
+        id: reviews.length
+            ? Math.max(...reviews.map(review => review.id)) + 1
+            : 1,
+
         movieId: Number(movieId),
         author,
         rating: Number(rating),
@@ -258,6 +261,9 @@ function addReview(movieId, author, rating, text) {
     };
 
     reviews.push(newReview);
+
+    // Сохраняем отзывы в браузере
+    localStorage.setItem('cinema-reviews', JSON.stringify(reviews));
 
     return newReview;
 }

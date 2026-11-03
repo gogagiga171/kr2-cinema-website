@@ -142,24 +142,64 @@ function renderMovie() {
 
 
         <section class="movie-section">
-
-            <h2>Отзывы зрителей</h2>
-
-            <div id="reviews-container"></div>
-
-            <button
-                id="show-reviews-button"
-                class="show-reviews-button"
-                style="display: none"
-            >
-                Показать все отзывы
+        <h2>Отзывы зрителей</h2>
+    
+        <div id="reviews-container"></div>
+    
+        <button
+            id="show-reviews-button"
+            class="show-reviews-button"
+            style="display: none"
+        >
+            Показать все отзывы
+        </button>
+    
+        <h3 class="review-form-title">Оставить отзыв</h3>
+    
+        <form id="review-form" class="review-form">
+            <div class="form-group">
+                <label for="review-author">Ваше имя</label>
+                <input
+                    type="text"
+                    id="review-author"
+                    maxlength="40"
+                    placeholder="Введите имя"
+                    required
+                >
+            </div>
+    
+            <div class="form-group">
+                <label for="review-rating">Оценка</label>
+                <select id="review-rating" required>
+                    <option value="">Выберите оценку</option>
+                    ${Array.from({ length: 10 }, (_, i) =>
+                        `<option value="${i + 1}">${i + 1}/10</option>`
+                    ).join('')}
+                </select>
+            </div>
+    
+            <div class="form-group">
+                <label for="review-text">Текст отзыва</label>
+                <textarea
+                    id="review-text"
+                    maxlength="1000"
+                    placeholder="Поделитесь впечатлениями о фильме"
+                    required
+                ></textarea>
+            </div>
+    
+            <button type="submit" class="review-submit">
+                Отправить отзыв
             </button>
-
-        </section>
+    
+            <p id="review-message"></p>
+        </form>
+    </section>
     `;
 
     renderSessions();
     renderReviews();
+    initReviewForm();
 }
 
 
@@ -297,6 +337,59 @@ function renderReviews(showAll = false) {
     }
 }
 
+function initReviewForm() {
+    const form = document.getElementById('review-form');
+    const message = document.getElementById('review-message');
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const author = document
+            .getElementById('review-author')
+            .value.trim();
+
+        const rating = Number(
+            document.getElementById('review-rating').value
+        );
+
+        const text = document
+            .getElementById('review-text')
+            .value.trim();
+
+        if (!author || !text || rating < 1 || rating > 10) {
+            message.textContent = 'Заполните все поля корректно.';
+            return;
+        }
+
+        addReview(movieId, author, rating, text);
+
+        // Обновляем количество оценок и средний рейтинг
+        const movieReviews = getReviewsByMovie(movieId);
+
+        movie.reviews = movieReviews.length;
+
+        movie.rating = Number((
+            movieReviews.reduce((sum, review) => sum + review.rating, 0)
+            / movieReviews.length
+        ).toFixed(1));
+
+        renderReviews();
+
+        // Обновляем рейтинг в верхней части страницы
+        const ratingNumber = document.querySelector('.rating-number');
+        const ratingInfo = document.querySelector('.rating-info');
+
+        ratingNumber.textContent = movie.rating;
+        ratingInfo.innerHTML = `
+            Рейтинг фильма<br>
+            ${movie.reviews} оценок
+        `;
+
+        form.reset();
+
+        message.textContent = 'Ваш отзыв добавлен.';
+    });
+}
 
 // ЗАПУСК
 renderMovie();

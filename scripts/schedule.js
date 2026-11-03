@@ -1,140 +1,90 @@
-const datesContainer = document.getElementById('dates');
-const selectedDate = document.getElementById('selected-date');
-const sessionsContainer = document.getElementById('sessions');
+
+const scheduleContainer = document.getElementById('sessions');
 
 const today = new Date();
 
-const days = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
+const dateKey = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, '0'),
+    String(today.getDate()).padStart(2, '0')
+].join('-');
 
-const months = [
-    'января', 'февраля', 'марта',
-    'апреля', 'мая', 'июня',
-    'июля', 'августа', 'сентября',
-    'октября', 'ноября', 'декабря'
-];
+// Если в URL есть id, показываем сеансы только этого фильма
+const params = new URLSearchParams(window.location.search);
+const movieId = params.get('id');
 
-let selectedDay = 0;
-
-// Создание выбора даты
-for (let i = 0; i < 7; i++) {
-    const date = new Date(today);
-    date.setDate(today.getDate() + i);
-
-    const button = document.createElement('button');
-
-    button.className = 'date-button' + (i === 0 ? ' active' : '');
-
-    button.innerHTML = `
-        <div>${days[date.getDay()]}</div>
-        <strong>
-            ${date.getDate()} ${months[date.getMonth()]}
-        </strong>
-    `;
-
-    button.addEventListener('click', () => {
-        selectedDay = i;
-
-        document.querySelectorAll('.date-button').forEach(btn => {
-            btn.classList.remove('active');
-        });
-
-        button.classList.add('active');
-
-        renderSchedule();
-    });
-
-    datesContainer.appendChild(button);
-}
-
-// Генерация расписания
 function renderSchedule() {
-    const date = new Date(today);
-    date.setDate(today.getDate() + selectedDay);
+    if (!scheduleContainer) return;
 
-    selectedDate.textContent =
-        'СЕАНСЫ НА ' +
-        date.getDate() + ' ' +
-        months[date.getMonth()].toUpperCase();
+    scheduleContainer.innerHTML = '';
 
-    const activeMovies = getActiveMovies();
+    let filteredSessions = sessions
+        .filter(session => session.date === dateKey);
 
-    sessionsContainer.innerHTML = '';
+    if (movieId) {
+        filteredSessions = filteredSessions.filter(
+            session => session.movieId === Number(movieId)
+        );
+    }
 
-    // Если пользователь пришёл из каталога с ID фильма
-    const params = new URLSearchParams(window.location.search);
-    const movieId = params.get('id');
+    const scheduleList = filteredSessions
+        .map(session => ({
+            ...session,
+            movie: getMovieById(session.movieId)
+        }))
+        .filter(session => session.movie && session.movie.isActive)
+        .sort((a, b) => a.time.localeCompare(b.time));
 
-    const filteredMovies = movieId
-        ? activeMovies.filter(movie => movie.id === Number(movieId))
-        : activeMovies;
+    scheduleList.forEach(session => {
+        const row = document.createElement('div');
+        row.className = 'schedule-row';
 
-    console.log(1)
+        row.innerHTML = `
+            <a
+                href="movie.html?id=${session.movie.id}"
+                class="schedule-poster-link"
+            >
+                <img
+                    src="${session.movie.poster}"
+                    alt="${session.movie.title}"
+                    class="schedule-poster"
+                >
+            </a>
 
-    filteredMovies.forEach(movie => {
-        const group = document.createElement('div');
-        group.className = 'session-group';
+            <div class="schedule-info">
+                <a href="movie.html?id=${session.movie.id}">
+                    ${session.movie.title}
+                </a>
 
-        group.innerHTML = `
-            <div class="session-heading">
-                <a href="movie.html?id=${movie.id}">${movie.title}</a>
-                <span>
-                    ${movie.genre.join(', ')} /
-                    ${movie.duration} мин /
-                    ${movie.ageRating}
-                </span>
+                <p>
+                    ${session.movie.genre.join(', ')} ·
+                    ${session.movie.ageRating}
+                </p>
+
+                <p>
+                    Зал ${session.hall} · ${session.format}
+                </p>
+            </div>
+
+            <div class="schedule-time">
+                ${session.time}
+            </div>
+
+            <div class="schedule-price">
+                ${session.price} ₽
             </div>
         `;
 
-        movie.sessions.forEach((time, index) => {
-            const session = document.createElement('div');
-            session.className = 'session-details';
-
-            session.innerHTML = `
-                <div class="session-time">
-                    ${time}
-                </div>
-
-                <div class="session-info">
-                    Зал №${(index % 3) + 1}<br>
-                    ${movie.format[index % movie.format.length]}
-                    · Обычный зал
-                </div>
-
-                <div class="session-price">
-                    ${movie.price} ₽
-                </div>
-
-                <button class="session-buy">
-                    ВЫБРАТЬ
-                </button>
-            `;
-
-            session.querySelector('.session-buy').addEventListener(
-                'click',
-                () => {
-                    alert(
-                        `Фильм: ${movie.title}\n` +
-                        `Дата: ${date.toLocaleDateString('ru-RU')}\n` +
-                        `Время: ${time}\n` +
-                        `Цена: ${movie.price} ₽`
-                    );
-                }
-            );
-
-            group.appendChild(session);
-        });
-
-        sessionsContainer.appendChild(group);
+        scheduleContainer.appendChild(row);
     });
 
-    if (filteredMovies.length === 0) {
-        sessionsContainer.innerHTML = `
-            <p style="color: var(--secondary); padding: 30px 0;">
-                Фильмы не найдены.
-            </p>
+    if (scheduleList.length === 0) {
+        scheduleContainer.innerHTML = `
+            <div class="empty-message">
+                На выбранную дату сеансов нет.
+            </div>
         `;
     }
 }
 
-// Первоначальная загрузка
 renderSchedule();

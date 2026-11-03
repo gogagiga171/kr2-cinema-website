@@ -1,30 +1,27 @@
+
 const moviesContainer = document.getElementById('movies-container');
 const scheduleContainer = document.getElementById('schedule-container');
 
-// Получаем первые 3 активных фильма
-const activeMovies = getActiveMovies().slice(0, 3);
-
-// Получаем сегодняшнюю дату
 const today = new Date();
-
 const dateKey = [
     today.getFullYear(),
     String(today.getMonth() + 1).padStart(2, '0'),
     String(today.getDate()).padStart(2, '0')
 ].join('-');
 
-// Форматируем дату
-const formattedDate = today.toLocaleDateString('ru-RU');
+// Первые 3 активных фильма
+const activeMovies = getActiveMovies().slice(0, 3);
 
-// Генерация карточек фильмов
+// Карточки фильмов
 function renderMovies() {
+    if (!moviesContainer) return;
+
     moviesContainer.innerHTML = '';
 
     activeMovies.forEach(movie => {
         const card = document.createElement('a');
         card.className = 'movie';
-
-        card.href = `movie.html?id=${movie.id}`
+        card.href = `movie.html?id=${movie.id}`;
 
         card.innerHTML = `
             <img
@@ -44,10 +41,7 @@ function renderMovies() {
 
                 <div class="movie-bottom">
                     <span>от ${movie.price} ₽</span>
-
-                    <a href="schedule.html?id=${movie.id}">
-                        СЕАНСЫ →
-                    </a>
+                    <span>СЕАНСЫ →</span>
                 </div>
             </div>
         `;
@@ -56,74 +50,66 @@ function renderMovies() {
     });
 
     if (activeMovies.length === 0) {
-        moviesContainer.innerHTML = `
-            <div class="empty-message">
-                Сейчас нет доступных фильмов.
-            </div>
-        `;
+        moviesContainer.innerHTML =
+            '<div class="empty-message">Сейчас нет доступных фильмов.</div>';
     }
 }
 
-// Генерация расписания
+// Расписание на сегодня
 function renderSchedule() {
+    if (!scheduleContainer) return;
+
     scheduleContainer.innerHTML = '';
 
-    const sessions = [];
+    const todaySessions = sessions
+        .filter(session => session.date === dateKey)
+        .map(session => ({
+            ...session,
+            movie: getMovieById(session.movieId)
+        }))
+        .filter(session => session.movie && session.movie.isActive)
+        .sort((a, b) => a.time.localeCompare(b.time));
 
-    activeMovies.forEach(movie => {
-        // Используем расписание на конкретную дату,
-        // если оно задано, иначе используем обычный массив sessions.
-        const movieSessions = movie.schedule?.[dateKey]
-            ?? movie.sessions;
-
-        movieSessions.forEach(time => {
-            sessions.push({
-                movie,
-                time
-            });
-        });
-    });
-
-    // Сортировка всех сеансов по времени
-    sessions.sort((a, b) =>
-        a.time.localeCompare(b.time)
-    );
-
-    sessions.forEach(session => {
+    todaySessions.forEach(session => {
         const row = document.createElement('div');
         row.className = 'schedule-row';
 
         row.innerHTML = `
+            <a
+                href="movie.html?id=${session.movie.id}"
+                class="schedule-poster-link"
+            >
+                <img
+                    src="${session.movie.poster}"
+                    alt="${session.movie.title}"
+                    class="schedule-poster"
+                >
+            </a>
+
             <div class="schedule-info">
-                <a href="movie.html?id=${session.movie.id}">${session.movie.title}</a>
+                <a href="movie.html?id=${session.movie.id}">
+                    ${session.movie.title}
+                </a>
 
                 <p>
                     ${session.movie.genre.join(', ')} ·
-                    ${session.movie.ageRating}
+                    ${session.movie.ageRating} ·
+                    Зал ${session.hall}
                 </p>
             </div>
 
-            <div class="schedule-time">
-                ${session.time}
-            </div>
-
-            <div class="schedule-price">
-                ${session.movie.price} ₽
-            </div>
+            <div class="schedule-time">${session.time}</div>
+            <div class="schedule-price">${session.price} ₽</div>
         `;
 
         scheduleContainer.appendChild(row);
     });
 
-    if (sessions.length === 0) {
-        scheduleContainer.innerHTML = `
-            <div class="empty-message">
-                На сегодня сеансов нет.
-            </div>
-        `;
+    if (todaySessions.length === 0) {
+        scheduleContainer.innerHTML =
+            '<div class="empty-message">На сегодня сеансов нет.</div>';
     }
 }
 
-// Запуск
 renderMovies();
 renderSchedule();

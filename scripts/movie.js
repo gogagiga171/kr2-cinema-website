@@ -1,28 +1,49 @@
-const container = document.getElementById('movie-container');
+
+const movieContainer = document.getElementById('movie-container');
 
 const params = new URLSearchParams(window.location.search);
-const movieId = params.get('id');
+const movieId = Number(params.get('id'));
 
 const movie = getMovieById(movieId);
 
-// Если фильм не найден
-if (!movie || !movie.isActive) {
-    container.innerHTML = `
-        <div class="not-found">
-            <h1>ФИЛЬМ НЕ НАЙДЕН</h1>
-            <p>Возможно, фильм больше не находится в прокате.</p>
-            <a href="movies.html" class="button">
-                К КАТАЛОГУ
-            </a>
-        </div>
-    `;
-} else {
+// Сегодняшняя дата
+const today = new Date();
 
-    document.title = `${movie.title} — CINEMA`;
+const dateKey = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, '0'),
+    String(today.getDate()).padStart(2, '0')
+].join('-');
 
-    // Основная информация
-    container.innerHTML = `
-        <div class="movie-layout">
+const formattedDate = today.toLocaleDateString('ru-RU');
+
+
+// СЕАНСЫ ФИЛЬМА НА СЕГОДНЯ
+function getTodaySessions() {
+    return sessions
+        .filter(session =>
+            session.movieId === movieId &&
+            session.date === dateKey
+        )
+        .sort((a, b) => a.time.localeCompare(b.time));
+}
+
+
+// ОТОБРАЖЕНИЕ ФИЛЬМА
+function renderMovie() {
+    if (!movie) {
+        movieContainer.innerHTML = `
+            <div class="not-found">
+                <h1>Фильм не найден</h1>
+                <p>Возможно, фильм был удалён или ссылка неверна.</p>
+                <a href="movies.html">Вернуться к фильмам</a>
+            </div>
+        `;
+        return;
+    }
+
+    movieContainer.innerHTML = `
+        <section class="movie-layout">
 
             <div>
                 <img
@@ -34,14 +55,10 @@ if (!movie || !movie.isActive) {
 
             <div class="movie-content">
 
-                <div class="hero-label">
-                    ${movie.isPremiere ? 'ПРЕМЬЕРА' : 'СЕЙЧАС В КИНО'}
-                </div>
-
                 <h1>${movie.title}</h1>
 
                 <div class="movie-original">
-                    ${movie.originalTitle} · ${movie.releaseYear}
+                    ${movie.originalTitle}
                 </div>
 
                 <div class="movie-rating">
@@ -50,8 +67,8 @@ if (!movie || !movie.isActive) {
                     </div>
 
                     <div class="rating-info">
-                        РЕЙТИНГ ФИЛЬМА<br>
-                        ${movie.reviews} отзывов
+                        Рейтинг фильма<br>
+                        ${movie.reviews} оценок
                     </div>
                 </div>
 
@@ -62,133 +79,224 @@ if (!movie || !movie.isActive) {
                 <div class="movie-details">
 
                     <div class="detail-row">
+                        <span class="detail-label">Год выпуска</span>
+                        <span class="detail-value">${movie.releaseYear}</span>
+                    </div>
+
+                    <div class="detail-row">
                         <span class="detail-label">Жанр</span>
-                        <span class="detail-value">
-                            ${movie.genre.join(', ')}
-                        </span>
+                        <span class="detail-value">${movie.genre.join(', ')}</span>
                     </div>
 
                     <div class="detail-row">
                         <span class="detail-label">Режиссёр</span>
-                        <span class="detail-value">
-                            ${movie.director}
-                        </span>
+                        <span class="detail-value">${movie.director}</span>
                     </div>
 
                     <div class="detail-row">
                         <span class="detail-label">Длительность</span>
-                        <span class="detail-value">
-                            ${movie.duration} минут
-                        </span>
+                        <span class="detail-value">${movie.duration} мин.</span>
                     </div>
 
                     <div class="detail-row">
-                        <span class="detail-label">Возраст</span>
-                        <span class="detail-value">
-                            ${movie.ageRating}
-                        </span>
+                        <span class="detail-label">Возрастное ограничение</span>
+                        <span class="detail-value">${movie.ageRating}</span>
                     </div>
 
                     <div class="detail-row">
                         <span class="detail-label">Формат</span>
-                        <span class="detail-value">
-                            ${movie.format.join(', ')}
-                        </span>
-                    </div>
-
-                    <div class="detail-row">
-                        <span class="detail-label">Стоимость</span>
-                        <span class="detail-value">
-                            от ${movie.price} ₽
-                        </span>
+                        <span class="detail-value">${movie.format.join(', ')}</span>
                     </div>
 
                 </div>
 
-                <a href="#sessions" class="button">
-                    ВЫБРАТЬ СЕАНС →
-                </a>
-
             </div>
-        </div>
 
-        <section class="movie-section">
-            <h2>АКТЁРСКИЙ СОСТАВ</h2>
-
-            <div class="cast-list" id="cast-list"></div>
         </section>
 
-        <section class="movie-section" id="sessions">
-            <h2>СЕАНСЫ СЕГОДНЯ</h2>
 
-            <div class="sessions" id="sessions-list"></div>
+        <section class="movie-section">
+
+            <h2>В главных ролях</h2>
+
+            <div class="cast-list">
+                ${movie.cast.map(actor => `
+                    <div class="cast-item">${actor}</div>
+                `).join('')}
+            </div>
+
+        </section>
+
+
+        <section class="movie-section">
+
+            <h2>Расписание на сегодня</h2>
+
+            <p class="section-description">
+                ${formattedDate}
+            </p>
+
+            <div id="sessions" class="sessions"></div>
+
+        </section>
+
+
+        <section class="movie-section">
+
+            <h2>Отзывы зрителей</h2>
+
+            <div id="reviews-container"></div>
+
+            <button
+                id="show-reviews-button"
+                class="show-reviews-button"
+                style="display: none"
+            >
+                Показать все отзывы
+            </button>
+
         </section>
     `;
 
-    // Актёрский состав
-    const castList = document.getElementById('cast-list');
+    renderSessions();
+    renderReviews();
+}
 
-    movie.cast.forEach(actor => {
-        const item = document.createElement('div');
-        item.className = 'cast-item';
-        item.textContent = actor;
 
-        castList.appendChild(item);
-    });
+// ОТОБРАЖЕНИЕ СЕАНСОВ
+function renderSessions() {
+    const scheduleContainer = document.getElementById('sessions');
 
-    // Расписание на сегодня
-    const sessionsList = document.getElementById('sessions-list');
+    const movieSessions = getTodaySessions();
 
-    const today = new Date();
-
-    const dateKey = [
-        today.getFullYear(),
-        String(today.getMonth() + 1).padStart(2, '0'),
-        String(today.getDate()).padStart(2, '0')
-    ].join('-');
-
-    const todaySessions = movie.schedule?.[dateKey] ?? movie.sessions;
-
-    if (todaySessions.length === 0) {
-        sessionsList.innerHTML = `
-            <div class="session-row">
-                <span class="session-format">
-                    Сегодня сеансов нет.
-                </span>
+    if (movieSessions.length === 0) {
+        scheduleContainer.innerHTML = `
+            <div class="empty-message">
+                На сегодня сеансов нет.
             </div>
         `;
+        return;
     }
 
-    todaySessions.forEach((time, index) => {
+    movieSessions.forEach(session => {
         const row = document.createElement('div');
         row.className = 'session-row';
 
         row.innerHTML = `
-            <div class="session-time">${time}</div>
+            <div class="session-time">
+                ${session.time}
+            </div>
 
             <div class="session-format">
-                Зал №${(index % 3) + 1}<br>
-                ${movie.format[index % movie.format.length]}
+                Зал ${session.hall} · ${session.format}
             </div>
 
             <div class="session-price">
-                ${movie.price} ₽
+                ${session.price} ₽
             </div>
 
-            <button class="session-button">
-                ВЫБРАТЬ
+            <button
+                class="session-button"
+                data-session-id="${session.id}"
+            >
+                Выбрать
             </button>
         `;
 
         row.querySelector('button').addEventListener('click', () => {
-            alert(
-                `Фильм: ${movie.title}\n` +
-                `Дата: ${today.toLocaleDateString('ru-RU')}\n` +
-                `Время: ${time}\n` +
-                `Цена: ${movie.price} ₽`
-            );
+            selectSession(session.id);
         });
 
-        sessionsList.appendChild(row);
+        scheduleContainer.appendChild(row);
     });
 }
+
+
+// ВЫБОР СЕАНСА
+function selectSession(sessionId) {
+    const session = sessions.find(item => item.id === sessionId);
+
+    if (!session) return;
+
+    alert(`
+Фильм: ${movie.title}
+Дата: ${session.date}
+Время: ${session.time}
+Зал: ${session.hall}
+Формат: ${session.format}
+Цена: ${session.price} ₽
+    `);
+}
+
+
+// ОТОБРАЖЕНИЕ ОТЗЫВОВ
+function renderReviews(showAll = false) {
+    const reviewsContainer = document.getElementById('reviews-container');
+    const showButton = document.getElementById('show-reviews-button');
+
+    const movieReviews = getReviewsByMovie(movieId);
+
+    if (movieReviews.length === 0) {
+        reviewsContainer.innerHTML = `
+            <div class="empty-message">
+                Пока нет отзывов об этом фильме.
+            </div>
+        `;
+
+        showButton.style.display = 'none';
+        return;
+    }
+
+    const visibleReviews = showAll
+        ? movieReviews
+        : movieReviews.slice(0, 3);
+
+    reviewsContainer.innerHTML = '';
+
+    const reviewsList = document.createElement('div');
+    reviewsList.className = 'reviews';
+
+    visibleReviews.forEach(review => {
+        const article = document.createElement('article');
+        article.className = 'review';
+
+        article.innerHTML = `
+            <div class="review-header">
+                <span class="review-author">
+                    ${review.author}
+                </span>
+
+                <span class="review-rating">
+                    ${review.rating}/10
+                </span>
+            </div>
+
+            <p class="review-text">
+                ${review.text}
+            </p>
+
+            <span class="review-date">
+                ${new Date(review.date + 'T00:00:00')
+                    .toLocaleDateString('ru-RU')}
+            </span>
+        `;
+
+        reviewsList.appendChild(article);
+    });
+
+    reviewsContainer.appendChild(reviewsList);
+
+    if (movieReviews.length > 3 && !showAll) {
+        showButton.style.display = 'inline-block';
+
+        showButton.onclick = () => {
+            renderReviews(true);
+        };
+    } else {
+        showButton.style.display = 'none';
+    }
+}
+
+
+// ЗАПУСК
+renderMovie();

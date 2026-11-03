@@ -171,14 +171,6 @@ section {
     border: 1px solid var(--border);
 }
 
-.schedule-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    border-bottom: 1px solid var(--border);
-}
-
 .schedule-row:last-child {
     border-bottom: none;
 }
@@ -192,6 +184,66 @@ section {
     color: var(--secondary);
     font-size: 13px;
 }
+
+
+.schedule-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+    border: 1px solid var(--border);
+    margin-bottom: 12px;
+}
+
+.schedule-poster {
+    width: 90px;
+    height: 130px;
+    object-fit: cover;
+    display: block;
+}
+
+.schedule-poster-link {
+    flex-shrink: 0;
+}
+
+.schedule-info {
+    flex: 1;
+}
+
+.schedule-info a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+}
+
+.schedule-info p {
+    color: var(--secondary);
+    margin: 8px 0;
+}
+
+.schedule-time,
+.schedule-price {
+    white-space: nowrap;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .schedule-row {
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .schedule-poster {
+        width: 65px;
+        height: 95px;
+    }
+
+    .schedule-info {
+        min-width: 150px;
+    }
+}
+
 
 .time {
     color: var(--accent);

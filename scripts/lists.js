@@ -144,6 +144,30 @@ const sessions = [
     { id: 12, movieId: 6, date: "2026-11-03", time: "19:30", hall: 1, format: "2D", price: 300 }
 ];
 
+// МЕСТА В ЗАЛАХ
+
+const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
+const savedSeats = JSON.parse(
+    localStorage.getItem('cinema-seats') || '{}'
+);
+
+const seats = sessions.flatMap(session =>
+    rows.flatMap(row =>
+        Array.from({ length: 20 }, (_, index) => {
+            const id = `${session.id}-${row}-${index + 1}`;
+
+            return {
+                id,
+                sessionId: session.id,
+                row,
+                number: index + 1,
+                isOccupied: savedSeats[id] ?? false
+            };
+        })
+    )
+);
+
 
 // СПИСОК ОТЗЫВОВ
 const reviews = JSON.parse(localStorage.getItem('cinema-reviews')) || [
@@ -266,4 +290,73 @@ function addReview(movieId, author, rating, text) {
     localStorage.setItem('cinema-reviews', JSON.stringify(reviews));
 
     return newReview;
+}
+
+// ПОЛУЧИТЬ МЕСТА СЕАНСА
+
+function getSeatsBySession(sessionId) {
+    return seats.filter(
+        seat => seat.sessionId === Number(sessionId)
+    );
+}
+
+
+// ПОЛУЧИТЬ СВОБОДНЫЕ МЕСТА
+
+function getAvailableSeats(sessionId) {
+    return getSeatsBySession(sessionId)
+        .filter(seat => !seat.isOccupied);
+}
+
+
+// СОХРАНИТЬ ЗАНЯТОСТЬ МЕСТ
+
+function saveSeats() {
+    const data = {};
+
+    seats.forEach(seat => {
+        data[seat.id] = seat.isOccupied;
+    });
+
+    localStorage.setItem('cinema-seats', JSON.stringify(data));
+}
+
+
+// ЗАНЯТЬ МЕСТО
+
+function occupySeat(sessionId, row, number) {
+    const seat = seats.find(seat =>
+        seat.sessionId === Number(sessionId) &&
+        seat.row === row &&
+        seat.number === Number(number)
+    );
+
+    if (!seat || seat.isOccupied) {
+        return false;
+    }
+
+    seat.isOccupied = true;
+    saveSeats();
+
+    return true;
+}
+
+
+// ОСВОБОДИТЬ МЕСТО
+
+function releaseSeat(sessionId, row, number) {
+    const seat = seats.find(seat =>
+        seat.sessionId === Number(sessionId) &&
+        seat.row === row &&
+        seat.number === Number(number)
+    );
+
+    if (!seat || !seat.isOccupied) {
+        return false;
+    }
+
+    seat.isOccupied = false;
+    saveSeats();
+
+    return true;
 }

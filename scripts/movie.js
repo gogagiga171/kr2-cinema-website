@@ -254,18 +254,7 @@ function renderSessions() {
 
 // ВЫБОР СЕАНСА
 function selectSession(sessionId) {
-    const session = sessions.find(item => item.id === sessionId);
-
-    if (!session) return;
-
-    alert(`
-Фильм: ${movie.title}
-Дата: ${session.date}
-Время: ${session.time}
-Зал: ${session.hall}
-Формат: ${session.format}
-Цена: ${session.price} ₽
-    `);
+    window.location.href = `seats.html?sessionId=${sessionId}`;
 }
 
 

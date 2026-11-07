@@ -126,22 +126,22 @@ const movies = [
 
 // СПИСОК СЕАНСОВ
 const sessions = [
-    { id: 1, movieId: 1, date: "2026-12-06", time: "12:30", hall: 1, format: "2D", price: 350 },
-    { id: 2, movieId: 1, date: "2026-12-06", time: "15:40", hall: 2, format: "IMAX", price: 450 },
-    { id: 3, movieId: 1, date: "2026-12-06", time: "19:00", hall: 1, format: "2D", price: 350 },
+    { id: 1, movieId: 1, date: "2026-11-07", time: "12:30", hall: 1, format: "2D", price: 350 },
+    { id: 2, movieId: 1, date: "2026-11-07", time: "15:40", hall: 2, format: "IMAX", price: 450 },
+    { id: 3, movieId: 1, date: "2026-11-07", time: "19:00", hall: 1, format: "2D", price: 350 },
 
-    { id: 4, movieId: 2, date: "2026-12-06", time: "13:00", hall: 3, format: "2D", price: 300 },
-    { id: 5, movieId: 2, date: "2026-12-06", time: "17:00", hall: 2, format: "2D", price: 300 },
-    { id: 6, movieId: 2, date: "2026-12-06", time: "21:00", hall: 1, format: "2D", price: 300 },
+    { id: 4, movieId: 2, date: "2026-11-07", time: "13:00", hall: 3, format: "2D", price: 300 },
+    { id: 5, movieId: 2, date: "2026-11-07", time: "17:00", hall: 2, format: "2D", price: 300 },
+    { id: 6, movieId: 2, date: "2026-11-07", time: "21:00", hall: 1, format: "2D", price: 300 },
 
-    { id: 7, movieId: 3, date: "2026-12-06", time: "14:00", hall: 2, format: "IMAX", price: 400 },
-    { id: 8, movieId: 3, date: "2026-12-06", time: "18:30", hall: 2, format: "IMAX", price: 450 },
+    { id: 7, movieId: 3, date: "2026-11-07", time: "14:00", hall: 2, format: "IMAX", price: 400 },
+    { id: 8, movieId: 3, date: "2026-11-07", time: "18:30", hall: 2, format: "IMAX", price: 450 },
 
-    { id: 9, movieId: 4, date: "2026-12-06", time: "16:00", hall: 1, format: "2D", price: 320 },
-    { id: 10, movieId: 4, date: "2026-12-06", time: "20:00", hall: 3, format: "2D", price: 320 },
+    { id: 9, movieId: 4, date: "2026-11-07", time: "16:00", hall: 1, format: "2D", price: 320 },
+    { id: 10, movieId: 4, date: "2026-11-07", time: "20:00", hall: 3, format: "2D", price: 320 },
 
-    { id: 11, movieId: 5, date: "2026-12-06", time: "12:00", hall: 3, format: "2D", price: 280 },
-    { id: 12, movieId: 6, date: "2026-12-06", time: "19:30", hall: 1, format: "2D", price: 300 }
+    { id: 11, movieId: 5, date: "2026-11-07", time: "12:00", hall: 3, format: "2D", price: 280 },
+    { id: 12, movieId: 6, date: "2026-11-07", time: "19:30", hall: 1, format: "2D", price: 300 }
 ];
 
 // МЕСТА В ЗАЛАХ

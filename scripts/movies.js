@@ -8,7 +8,7 @@ function renderMovies(list) {
 
     list.forEach(movie => {
         const card = document.createElement('a');
-        card.className = 'catalog-card';
+        card.className = 'catalog-card card h-100';
 
         card.href = `movie.html?id=${movie.id}`
 
@@ -19,7 +19,7 @@ function renderMovies(list) {
                 alt="${movie.title}"
             >
 
-            <div class="catalog-content">
+            <div class="catalog-content card-body">
                 <h3>${movie.title}</h3>
 
                 <div class="catalog-meta">
@@ -36,7 +36,7 @@ function renderMovies(list) {
                     </span>
 
                     <a href="schedule.html?id=${movie.id}"
-                       class="catalog-button">
+                       class="catalog-button btn btn-outline-light btn-sm">
                         СЕАНСЫ →
                     </a>
                 </div>

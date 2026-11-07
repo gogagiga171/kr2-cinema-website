@@ -156,12 +156,13 @@ function renderMovie() {
     
         <h3 class="review-form-title">Оставить отзыв</h3>
     
-        <form id="review-form" class="review-form">
+        <form id="review-form" class="review-form needs-validation">
             <div class="form-group">
                 <label for="review-author">Ваше имя</label>
                 <input
                     type="text"
                     id="review-author"
+                class="form-control"
                     maxlength="40"
                     placeholder="Введите имя"
                     required
@@ -170,7 +171,7 @@ function renderMovie() {
     
             <div class="form-group">
                 <label for="review-rating">Оценка</label>
-                <select id="review-rating" required>
+                <select id="review-rating" class="form-select" required>
                     <option value="">Выберите оценку</option>
                     ${Array.from({ length: 10 }, (_, i) =>
                         `<option value="${i + 1}">${i + 1}/10</option>`
@@ -182,13 +183,14 @@ function renderMovie() {
                 <label for="review-text">Текст отзыва</label>
                 <textarea
                     id="review-text"
+                    class="form-control"
                     maxlength="1000"
                     placeholder="Поделитесь впечатлениями о фильме"
                     required
                 ></textarea>
             </div>
     
-            <button type="submit" class="review-submit">
+            <button type="submit" class="review-submit btn btn-success">
                 Отправить отзыв
             </button>
     

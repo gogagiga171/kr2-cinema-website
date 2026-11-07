@@ -85,7 +85,7 @@ function renderHall() {
         rowSeats.forEach(seat => {
             const button = document.createElement('button');
 
-            button.className = 'seat';
+            button.className = 'seat btn p-0';
 
             button.textContent = seat.number;
 

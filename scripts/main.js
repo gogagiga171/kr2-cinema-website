@@ -20,7 +20,7 @@ function renderMovies() {
 
     activeMovies.forEach(movie => {
         const card = document.createElement('a');
-        card.className = 'movie';
+        card.className = 'movie card h-100';
         card.href = `movie.html?id=${movie.id}`;
 
         card.innerHTML = `
@@ -30,7 +30,7 @@ function renderMovies() {
                 class="movie-poster"
             >
 
-            <div class="movie-info">
+            <div class="movie-info card-body">
                 <h3>${movie.title}</h3>
 
                 <p>
@@ -72,7 +72,7 @@ function renderSchedule() {
 
     todaySessions.forEach(session => {
         const row = document.createElement('div');
-        row.className = 'schedule-row';
+        row.className = 'schedule-row d-flex flex-wrap';
 
         row.innerHTML = `
             <a

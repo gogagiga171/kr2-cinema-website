@@ -37,7 +37,7 @@ function renderSchedule() {
 
     scheduleList.forEach(session => {
         const row = document.createElement('div');
-        row.className = 'schedule-row';
+        row.className = 'schedule-row d-flex flex-wrap align-items-center';
 
         row.innerHTML = `
             <a

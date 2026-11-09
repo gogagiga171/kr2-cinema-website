@@ -38,15 +38,53 @@
 
         <div class="date-selector" id="dates"></div>
 
-        <h2 class="day-title" id="selected-date">
-            СЕАНСЫ НА СЕГОДНЯ
-        </h2>
+<h2 class="day-title" id="selected-date">
+    СЕАНСЫ НА СЕГОДНЯ
+</h2>
 
-        <div id="sessions"></div>
+<div class="schedule-layout">
 
-        <div class="schedule-note">
-            * Расписание и стоимость билетов указаны для демонстрации.
+    <aside class="schedule-filters">
+        <div class="filter-heading">
+            <h3>Фильтры</h3>
+            <button type="button" id="reset-filters">Сбросить</button>
         </div>
+
+        <div class="filter-group">
+            <label for="filter-genre">Жанр</label>
+            <select id="filter-genre" class="form-select">
+                <option value="all">Все жанры</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-min-price">Минимальная цена</label>
+            <input type="number" id="filter-min-price" class="form-control"
+                   min="0" value="0" placeholder="От">
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-max-price">Максимальная цена</label>
+            <input type="number" id="filter-max-price" class="form-control"
+                   min="0" value="2000" placeholder="До">
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-format">Формат показа</label>
+            <select id="filter-format" class="form-select">
+                <option value="all">Все форматы</option>
+                <option value="2D">2D</option>
+                <option value="3D">3D</option>
+                <option value="IMAX">IMAX</option>
+            </select>
+        </div>
+    </aside>
+
+    <div class="schedule-results">
+        <div id="sessions"></div>
+    </div>
+
+</div>
 
     </div>
 </main>

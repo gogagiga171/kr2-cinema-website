@@ -137,3 +137,230 @@
                 text-align: left;
             }
         }
+
+
+
+/* Расположение фильтров и расписания */
+.schedule-layout {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    gap: 25px;
+    align-items: start;
+    padding-bottom: 30px;
+}
+
+.schedule-filters {
+    background: #292929;
+    border: 1px solid var(--border);
+    padding: 20px;
+    position: sticky;
+    top: 20px;
+}
+
+.filter-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.filter-heading h3 {
+    color: white;
+    font-size: 19px;
+    margin: 0;
+}
+
+.filter-heading button {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.filter-group {
+    margin-bottom: 22px;
+}
+
+.filter-group:last-child {
+    margin-bottom: 0;
+}
+
+.filter-group label {
+    display: block;
+    color: #ddd;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.filter-group label strong {
+    color: var(--accent);
+    margin-left: 5px;
+}
+
+.filter-group .form-select {
+    background-color: #212121;
+    color: white;
+    border: 1px solid var(--border);
+    border-radius: 0;
+    font-size: 13px;
+}
+
+.filter-group .form-select:focus {
+    border-color: var(--accent);
+    box-shadow: none;
+}
+
+.filter-group .form-select option {
+    background: #212121;
+    color: white;
+}
+
+.filter-group .form-range::-webkit-slider-thumb {
+    background: var(--accent);
+}
+
+.filter-group .form-range::-moz-range-thumb {
+    background: var(--accent);
+}
+
+/* Результаты расписания */
+.schedule-results {
+    min-width: 0;
+}
+
+.schedule-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 18px;
+    margin-bottom: 12px;
+    background: #292929;
+    border: 1px solid var(--border);
+    transition: border-color .2s;
+}
+
+.schedule-row:hover {
+    border-color: var(--accent);
+}
+
+.schedule-poster-link {
+    flex-shrink: 0;
+}
+
+.schedule-poster {
+    width: 75px;
+    height: 105px;
+    object-fit: cover;
+    display: block;
+}
+
+.schedule-info {
+    flex: 1;
+    min-width: 120px;
+}
+
+.schedule-info > a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.schedule-info > a:hover {
+    color: var(--accent);
+}
+
+.schedule-info p {
+    color: var(--secondary);
+    font-size: 12px;
+    margin: 7px 0 0;
+}
+
+.schedule-time {
+    color: white;
+    font-size: 19px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.schedule-price {
+    color: var(--accent);
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+.schedule-buy {
+    border-radius: 0;
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #111;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    padding: 10px 13px;
+}
+
+.schedule-buy:hover {
+    background: transparent;
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.empty-message {
+    background: #292929;
+    border: 1px solid var(--border);
+    color: var(--secondary);
+    text-align: center;
+    padding: 40px 15px;
+}
+
+/* Адаптация */
+@media (max-width: 900px) {
+    .schedule-layout {
+        grid-template-columns: 200px minmax(0, 1fr);
+        gap: 15px;
+    }
+
+    .schedule-row {
+        flex-wrap: wrap;
+    }
+
+    .schedule-buy {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .schedule-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .schedule-filters {
+        position: static;
+    }
+
+    .schedule-row {
+        gap: 12px;
+        padding: 13px;
+    }
+
+    .schedule-poster {
+        width: 65px;
+        height: 90px;
+    }
+
+    .schedule-info {
+        min-width: 0;
+    }
+
+    .schedule-time {
+        font-size: 16px;
+    }
+
+    .schedule-price {
+        font-size: 14px;
+    }
+}

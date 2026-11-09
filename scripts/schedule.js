@@ -1,5 +1,10 @@
-
 const scheduleContainer = document.getElementById('sessions');
+
+const genreFilter = document.getElementById('filter-genre');
+const minPriceFilter = document.getElementById('filter-min-price');
+const maxPriceFilter = document.getElementById('filter-max-price');
+const formatFilter = document.getElementById('filter-format');
+const resetButton = document.getElementById('reset-filters');
 
 const today = new Date();
 
@@ -13,31 +18,95 @@ const dateKey = [
 const params = new URLSearchParams(window.location.search);
 const movieId = params.get('id');
 
-function renderSchedule() {
-    if (!scheduleContainer) return;
+// Заполняем список жанров
+function initGenreFilter() {
+    const genres = [...new Set(
+        getActiveMovies().flatMap(movie => movie.genre)
+    )].sort();
 
-    scheduleContainer.innerHTML = '';
+    genres.forEach(genre => {
+        const option = document.createElement('option');
+        option.value = genre;
+        option.textContent = genre;
+        genreFilter.appendChild(option);
+    });
+}
 
-    let filteredSessions = sessions
-        .filter(session => session.date === dateKey);
+// Настраиваем максимальную цену
+function initPriceFilter() {
+    const maxPrice = Math.max(
+        ...sessions.map(session => Number(session.price) || 0),
+        2000
+    );
 
-    if (movieId) {
-        filteredSessions = filteredSessions.filter(
-            session => session.movieId === Number(movieId)
-        );
-    }
+    minPriceFilter.value = 0;
+    maxPriceFilter.value = maxPrice;
 
-    const scheduleList = filteredSessions
+    minPriceFilter.max = maxPrice;
+    maxPriceFilter.max = maxPrice;
+}
+
+// Проверяем наличие формата
+function hasFormat(session, format) {
+    const sessionFormat = String(session.format).toUpperCase();
+
+    return sessionFormat.includes(format.toUpperCase());
+}
+
+// Получаем сеансы с учётом фильтров
+function getFilteredSessions() {
+    const selectedGenre = genreFilter.value;
+    const minPriceFilter = document.getElementById('filter-min-price');
+    const maxPriceFilter = document.getElementById('filter-max-price');
+    const selectedFormat = formatFilter.value;
+    const minPrice = Number(minPriceFilter.value) || 0;
+    const maxPrice = Number(maxPriceFilter.value) || 0;
+
+    return sessions
+        .filter(session => session.date === dateKey)
+        .filter(session => {
+            if (movieId && session.movieId !== Number(movieId)) {
+                return false;
+            }
+
+            const movie = getMovieById(session.movieId);
+
+            if (!movie || !movie.isActive) {
+                return false;
+            }
+
+            const matchesGenre =
+                selectedGenre === 'all' ||
+                movie.genre.includes(selectedGenre);
+
+            if (session.price < minPrice || session.price > maxPrice) {
+                return false;
+            }
+
+            const matchesFormat =
+                selectedFormat === 'all' ||
+                hasFormat(session, selectedFormat);
+
+            return matchesGenre && matchesFormat;
+        })
         .map(session => ({
             ...session,
             movie: getMovieById(session.movieId)
         }))
-        .filter(session => session.movie && session.movie.isActive)
         .sort((a, b) => a.time.localeCompare(b.time));
+}
+
+// Отображаем расписание
+function renderSchedule() {
+    if (!scheduleContainer) return;
+
+    const scheduleList = getFilteredSessions();
+
+    scheduleContainer.innerHTML = '';
 
     scheduleList.forEach(session => {
         const row = document.createElement('div');
-        row.className = 'schedule-row d-flex flex-wrap align-items-center';
+        row.className = 'schedule-row';
 
         row.innerHTML = `
             <a
@@ -73,6 +142,13 @@ function renderSchedule() {
             <div class="schedule-price">
                 ${session.price} ₽
             </div>
+
+            <a
+                href="seats.html?sessionId=${session.id}"
+                class="schedule-buy btn btn-success"
+            >
+                Выбрать места
+            </a>
         `;
 
         scheduleContainer.appendChild(row);
@@ -81,10 +157,31 @@ function renderSchedule() {
     if (scheduleList.length === 0) {
         scheduleContainer.innerHTML = `
             <div class="empty-message">
-                На выбранную дату сеансов нет.
+                По выбранным параметрам сеансов нет.
             </div>
         `;
     }
 }
 
+// Обработчики фильтров
+genreFilter.addEventListener('change', renderSchedule);
+
+formatFilter.addEventListener('change', renderSchedule);
+
+minPriceFilter.addEventListener('input', renderSchedule);
+maxPriceFilter.addEventListener('input', renderSchedule);
+
+// Сброс фильтров
+resetButton.addEventListener('click', () => {
+    genreFilter.value = 'all';
+    formatFilter.value = 'all';
+    minPriceFilter.value = 0;
+    maxPriceFilter.value = maxPriceFilter.max;
+
+    renderSchedule();
+});
+
+// Первоначальная загрузка
+initGenreFilter();
+initPriceFilter();
 renderSchedule();

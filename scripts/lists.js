@@ -34,7 +34,7 @@ const movies = [
         rating: 8.8,
         reviews: 980,
         price: 300,
-        format: ["2D"],
+        format: ["2D", "3D"],
         poster: "static/inception.jpg",
         cast: ["Леонардо Ди Каприо", "Джозеф Гордон-Левитт"],
         isActive: true,
@@ -118,7 +118,7 @@ const movies = [
         poster: "static/shutter-island.jpg",
         cast: ["Леонардо Ди Каприо", "Марк Руффало"],
         isActive: true,
-        isPremiere: false,
+        isPremiere: true,
         isPopular: false
     }
 ];

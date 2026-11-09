@@ -3,21 +3,52 @@ const genre = document.getElementById('genre');
 const catalog = document.getElementById('catalog');
 const empty = document.getElementById('empty');
 
+
 function renderMovies(list) {
     catalog.innerHTML = '';
 
     list.forEach(movie => {
         const card = document.createElement('a');
-        card.className = 'catalog-card card h-100';
+        let cardType = '';
+        if (movie.isPremiere) {
+            cardType = 'card-premiere';
+        } else if (movie.format?.includes('IMAX')) {
+            cardType = 'card-imax';
+        } else if (movie.format?.includes('3D')) {
+            cardType = 'card-3d';
+        }
 
-        card.href = `movie.html?id=${movie.id}`
+        card.className = `catalog-card card h-100 ${cardType}`;
+
+        card.href = `movie.html?id=${movie.id}`;
+
+        // Формируем метки фильма
+        const badges = [];
+
+        if (movie.isPremiere) {
+            badges.push('<span class="movie-badge premiere">ПРЕМЬЕРА</span>');
+        }
+
+        if (movie.format?.includes('3D')) {
+            badges.push('<span class="movie-badge format-3d">3D</span>');
+        }
+
+        if (movie.format?.includes('IMAX')) {
+            badges.push('<span class="movie-badge imax">IMAX</span>');
+        }
 
         card.innerHTML = `
-            <img
-                class="catalog-poster"
-                src="${movie.poster}"
-                alt="${movie.title}"
-            >
+            <div class="catalog-poster-wrapper">
+                <img
+                    class="catalog-poster"
+                    src="${movie.poster}"
+                    alt="${movie.title}"
+                >
+
+                <div class="movie-badges">
+                    ${badges.join('')}
+                </div>
+            </div>
 
             <div class="catalog-content card-body">
                 <h3>${movie.title}</h3>
@@ -35,10 +66,9 @@ function renderMovies(list) {
                         от ${movie.price} ₽
                     </span>
 
-                    <a href="schedule.html?id=${movie.id}"
-                       class="catalog-button btn btn-outline-light btn-sm">
+                    <span class="catalog-button btn btn-outline-light btn-sm">
                         СЕАНСЫ →
-                    </a>
+                    </span>
                 </div>
             </div>
         `;
@@ -48,6 +78,7 @@ function renderMovies(list) {
 
     empty.style.display = list.length === 0 ? 'block' : 'none';
 }
+
 
 function filterMovies() {
     const query = search.value.toLowerCase().trim();

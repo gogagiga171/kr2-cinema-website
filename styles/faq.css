@@ -1,0 +1,124 @@
+.faq-container {
+    max-width: 960px;
+    padding-top: 64px;
+    padding-bottom: 80px;
+}
+
+.faq-heading {
+    margin-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 28px;
+}
+
+.faq-eyebrow {
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.faq-heading h1 {
+    color: var(--main);
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.faq-intro {
+    color: var(--secondary);
+    font-size: 16px;
+    margin: 0;
+}
+
+.faq-section {
+    margin-bottom: 42px;
+}
+
+.faq-section h2,
+.faq-contact h2 {
+    color: var(--main);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.faq-accordion .accordion-item {
+    background: var(--main);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.faq-accordion .accordion-button {
+    background: #292929;
+    color: #ececec;
+    box-shadow: none;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 20px 22px;
+}
+
+.faq-accordion .accordion-button:not(.collapsed) {
+    color: var(--accent);
+    background: #292929;
+}
+
+.faq-accordion .accordion-button::after {
+    filter: invert(1) grayscale(1);
+}
+
+.faq-accordion .accordion-body {
+    color: #bdbdbd;
+    background: #292929;
+    line-height: 1.7;
+    padding: 0 22px 22px;
+}
+
+.faq-accordion .accordion-body a {
+    color: var(--accent);
+}
+
+.faq-contact {
+    margin-top: 52px;
+    padding: 28px;
+    border: 1px solid var(--border);
+    background: #292929;
+    text-align: center;
+}
+
+.faq-contact h2 {
+    color: #ececec;
+    margin-bottom: 20px;
+}
+
+.faq-contact p {
+    color: var(--secondary);
+    margin-bottom: 20px;
+}
+
+.faq-contact .btn {
+    border-radius: 0;
+    padding: 10px 24px;
+}
+
+@media (max-width: 576px) {
+    .faq-container {
+        padding-top: 40px;
+        padding-bottom: 56px;
+    }
+
+    .faq-heading {
+        margin-bottom: 34px;
+    }
+
+    .faq-accordion .accordion-button {
+        padding: 16px;
+        font-size: 15px;
+    }
+
+    .faq-accordion .accordion-body {
+        padding: 0 16px 18px;
+    }
+}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Частые вопросы — CINEMA</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/faq.css">
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <nav>
+            <div class="logo">CINE<span>MA.</span></div>
+            <div class="nav-links">
+                <a href="main.html">Главная</a>
+                <a href="movies.html">Фильмы</a>
+                <a href="schedule.html">Расписание</a>
+                <a href="about.html">О кинотеатре</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main class="faq-container container">
+    <div class="faq-heading">
+        <p class="faq-eyebrow">ПОМОЩЬ ЗРИТЕЛЯМ</p>
+        <h1>Частые вопросы</h1>
+        <p class="faq-intro">Ответы на вопросы о билетах, сеансах и посещении кинотеатра.</p>
+    </div>
+
+    <section class="faq-section" aria-labelledby="tickets-heading">
+        <h2 id="tickets-heading">Билеты и бронирование</h2>
+        <div class="accordion faq-accordion" id="ticketsAccordion">
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="ticket-q1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#ticket-a1" aria-expanded="true" aria-controls="ticket-a1">
+                        Как выбрать фильм и купить билет?
+                    </button>
+                </h3>
+                <div id="ticket-a1" class="accordion-collapse collapse show" aria-labelledby="ticket-q1" data-bs-parent="#ticketsAccordion">
+                    <div class="accordion-body">Откройте раздел «Фильмы» или «Расписание», выберите фильм и подходящий сеанс. На странице сеанса можно перейти к выбору мест и заполнить форму.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="ticket-q2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ticket-a2" aria-expanded="false" aria-controls="ticket-a2">
+                        Можно ли выбрать конкретные места?
+                    </button>
+                </h3>
+                <div id="ticket-a2" class="accordion-collapse collapse" aria-labelledby="ticket-q2" data-bs-parent="#ticketsAccordion">
+                    <div class="accordion-body">Да. На схеме зала свободные места отмечены зелёным цветом, занятые — красным. Нажмите на свободное место, чтобы выбрать его.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="ticket-q3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ticket-a3" aria-expanded="false" aria-controls="ticket-a3">
+                        Нужно ли распечатывать билет?
+                    </button>
+                </h3>
+                <div id="ticket-a3" class="accordion-collapse collapse" aria-labelledby="ticket-q3" data-bs-parent="#ticketsAccordion">
+                    <div class="accordion-body">В демонстрационной версии сайта электронный билет и его проверка не реализованы. После выбора места отображается сообщение о покупке.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section" aria-labelledby="sessions-heading">
+        <h2 id="sessions-heading">Сеансы и посещение</h2>
+        <div class="accordion faq-accordion" id="sessionsAccordion">
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="session-q1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#session-a1" aria-expanded="true" aria-controls="session-a1">
+                        Как узнать время начала сеанса?
+                    </button>
+                </h3>
+                <div id="session-a1" class="accordion-collapse collapse show" aria-labelledby="session-q1" data-bs-parent="#sessionsAccordion">
+                    <div class="accordion-body">Актуальное время указано в разделе «Расписание». Там можно посмотреть дату, время, зал, формат и стоимость сеанса.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="session-q2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#session-a2" aria-expanded="false" aria-controls="session-a2">
+                        Можно ли войти в зал после начала фильма?
+                    </button>
+                </h3>
+                <div id="session-a2" class="accordion-collapse collapse" aria-labelledby="session-q2" data-bs-parent="#sessionsAccordion">
+                    <div class="accordion-body">Рекомендуем приходить заранее, чтобы спокойно найти свой зал и место. Возможность входа после начала сеанса зависит от правил кинотеатра.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="session-q3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#session-a3" aria-expanded="false" aria-controls="session-a3">
+                        Где посмотреть возрастное ограничение фильма?
+                    </button>
+                </h3>
+                <div id="session-a3" class="accordion-collapse collapse" aria-labelledby="session-q3" data-bs-parent="#sessionsAccordion">
+                    <div class="accordion-body">Возрастное ограничение указано в карточке каждого фильма на странице его описания.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section" aria-labelledby="other-heading">
+        <h2 id="other-heading">Оплата и другие вопросы</h2>
+        <div class="accordion faq-accordion" id="otherAccordion">
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="other-q1">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#other-a1" aria-expanded="true" aria-controls="other-a1">
+                        Проходит ли на сайте настоящая оплата?
+                    </button>
+                </h3>
+                <div id="other-a1" class="accordion-collapse collapse show" aria-labelledby="other-q1" data-bs-parent="#otherAccordion">
+                    <div class="accordion-body">Нет. Сайт является учебным проектом: форма покупки демонстрационная, банковские карты и реальные платежи не используются.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="other-q2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#other-a2" aria-expanded="false" aria-controls="other-a2">
+                        Как связаться с кинотеатром?
+                    </button>
+                </h3>
+                <div id="other-a2" class="accordion-collapse collapse" aria-labelledby="other-q2" data-bs-parent="#otherAccordion">
+                    <div class="accordion-body">Контактные данные и адрес указаны на странице <a href="about.html">«О кинотеатре»</a>.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="faq-contact">
+        <h2>Не нашли ответ?</h2>
+        <p>Посмотрите контактную информацию на странице кинотеатра.</p>
+        <a class="btn btn-success" href="about.html#contacts">Связаться с нами</a>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-main row g-4">
+                <div class="footer-brand col-12 col-md-4">
+                    <div class="footer-logo"><span>CINE<span class="logo-accent">MA.</span></span></div>
+                    <p class="footer-slogan">КИНО НАЧИНАЕТСЯ ЗДЕСЬ.</p>
+                </div>
+                <div class="footer-column col-6 col-md-4">
+                    <h3>Для гостей</h3>
+                    <a href="schedule.html">Расписание сеансов</a>
+                    <a href="movies.html">Все фильмы</a>
+                    <a href="movies.html">Премьеры</a>
+                    <a href="faq.html">Частые вопросы</a>
+                </div>
+                <div class="footer-column col-6 col-md-4">
+                    <h3>О нас</h3>
+                    <a href="about.html">О кинотеатре</a>
+                    <a href="about.html#contacts">Контакты</a>
+                    <a href="about.html">Наши залы</a>
+                    <a href="about.html">Правовая информация</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 CINEMA. Все права защищены.</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
